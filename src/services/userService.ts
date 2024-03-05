@@ -1,6 +1,7 @@
 // services/userService.ts
 import { PrismaClient } from '@prisma/client';
 
+//* User Type
 interface CreateUserInput {
   name: string;
   lastname: string;
