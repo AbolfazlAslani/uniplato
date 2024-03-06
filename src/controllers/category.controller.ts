@@ -129,7 +129,6 @@ class CategoryController {
                     reply.code(200).send({
                         success: true,
                         message: "Category Deleted Successfully!",
-                        body: deletionResult
                     });
                 } else {
                     // Return error if deletion fails
