@@ -1,6 +1,4 @@
 import fastify from 'fastify';
-import userSchema from './schemas/user.schema'
-import AuthController from './controllers/auth.controller';
 import AllRoutes from './routes/routes';
 
 const server = fastify();
