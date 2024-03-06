@@ -47,14 +47,16 @@ class CategoryService {
     }
   }
 
-  static async deleteOneCategory(categoryId: number): Promise<void> {
+  static async deleteOneCategory(categoryId: number): Promise<boolean | undefined> {
     try {
       await prisma.category.delete({
         where: { id: categoryId },
       });
+      return true;
     } catch (error) {
       console.error('Error deleting category:', error);
       throw new Error('Error deleting category');
+      return undefined;
     }
   }
 
