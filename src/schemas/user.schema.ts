@@ -14,4 +14,19 @@ const userSchema = {
     }
 }
 
-export default userSchema;
+const loginSchema ={
+  schema: {
+    body: {
+      type: 'object',
+      required: ['email', 'password'],
+      properties: {
+        email: { type: 'string', format: 'email' },
+        password: { type: 'string', minLength: 6 },
+      },
+    },
+  }
+}
+
+
+export { userSchema, loginSchema };
+export default {userSchema, loginSchema}

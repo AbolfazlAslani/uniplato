@@ -1,7 +1,8 @@
 // auth.route.ts
 import AuthController from '../controllers/auth.controller';
-import userSchema from '../schemas/user.schema';
+import {userSchema,loginSchema} from '../schemas/user.schema';
 import { FastifyPluginAsync } from 'fastify';
+
 
 interface IBody{
   name:string,
@@ -23,6 +24,8 @@ interface IReply{
 
 //* Authentication Routes
 const routes: FastifyPluginAsync = async (fastify) => {
+
+    //* Signup endpoint
     fastify.post<{
     Body:IBody,
     Reply:IReply
@@ -30,5 +33,11 @@ const routes: FastifyPluginAsync = async (fastify) => {
       schema: userSchema.schema,
       handler: AuthController.signUp,
     });
+    
+    //* Login endpoint
+    fastify.post('/login', {
+        schema: loginSchema.schema,
+        handler: AuthController.Login,
+      });
   };
   export default routes;
