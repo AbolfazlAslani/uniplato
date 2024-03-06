@@ -2,7 +2,7 @@ const userSchema = {
     schema: {
       body: {
         type: 'object',
-        required: ['name', 'lastname', 'phoneNumber', 'email', 'password', 'confirmPassword'],
+        required: ['name', 'lastname', 'phoneNumber', 'email', 'password'],
         properties: {
           name: { type: 'string' },
           lastname: { type: 'string' },

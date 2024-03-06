@@ -1,9 +1,11 @@
 import { createUser } from "../services/userService";
 import { FastifyRequest, FastifyReply } from 'fastify';
+import hashPassword from "../functions/functions";
 
 class AuthController {
-  static async signUp(request: FastifyRequest, reply: FastifyReply) {
+  static async signUp(request: FastifyRequest, reply: FastifyReply):Promise<void> {
     try {
+      //? Catching Body
       const { name, lastname, phoneNumber, email, password } = request.body as {
         name: string;
         lastname: string;
@@ -11,24 +13,26 @@ class AuthController {
         email: string;
         password: string;
       };
-
-      const user = await createUser({ name, lastname, phoneNumber, email, password });
+      //* Hashing password before adding to the database
+      const hashedPassword = await hashPassword(password);
+      
+      //? Creating New User in database with Prisma
+      const user = await createUser({ name, lastname, phoneNumber, email, password:hashedPassword });
 
       if (user) {
         reply.code(201).send({
+          success:true,
           message: "Created Successfully!",
-          user
+          body: user
         });
       }
     } catch (error:any) {
-      console.error(error);
       //? Handle duplicate email error
       if (error.code === 'P2002') {
         reply.code(400).send({
-            statusCode:400,
-            errorMessage: 'Email already taken' 
+            error: 'Email already taken'
         });
-        //? Handle InternalServerError request 
+        //? Handle InternalServerError request
       } else {
         reply.code(500).send({ error: 'Internal Server Error' });
       }
