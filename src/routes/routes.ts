@@ -2,6 +2,8 @@
 import AuthController from '../controllers/auth.controller';
 import {userSchema,loginSchema} from '../schemas/user.schema';
 import { FastifyPluginAsync } from 'fastify';
+import categoryRoute from './category.route'
+import authRoute from './auth.route'
 
 
 interface IBody{
@@ -25,19 +27,13 @@ interface IReply{
 //* Authentication Routes
 const routes: FastifyPluginAsync = async (fastify) => {
 
-    //* Signup endpoint
-    fastify.post<{
-    Body:IBody,
-    Reply:IReply
-    }>('/signup', {
-      schema: userSchema.schema,
-      handler: AuthController.signUp,
-    });
+    //* Registred auth routes
+    //* Accessible through : http://localhost:3000/auth
+    fastify.register(authRoute,{prefix:"/auth"});
     
-    //* Login endpoint
-    fastify.post('/login', {
-        schema: loginSchema.schema,
-        handler: AuthController.Login,
-      });
+    //* Registred category routes
+    //* Accessible through : http://localhost:3000/category
+    fastify.register(categoryRoute,{prefix:"/category"});
   };
+
   export default routes;

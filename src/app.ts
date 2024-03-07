@@ -54,3 +54,6 @@ server.listen({ port }, (err) => {
     process.exit(1);
   }
 });
+
+
+export default server;

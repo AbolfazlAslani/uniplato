@@ -17,3 +17,11 @@ model User {
     email       String @unique
     password    String
 }
+
+model Category {
+    id        Int     @id @default(autoincrement())
+    latitude  Int?
+    longitude Int?
+    category  String?
+    counter   Int?
+}
