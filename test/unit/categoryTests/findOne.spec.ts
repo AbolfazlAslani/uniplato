@@ -1,8 +1,8 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import { FastifyRequest, FastifyReply } from 'fastify';
-import CategoryController from '../../src/controllers/category.controller';
-import CategoryService from '../../src/services/categoryService';
+import CategoryController from '../../../src/controllers/category.controller';
+import CategoryService from '../../../src/services/categoryService';
 
 const expect = chai.expect;
 
