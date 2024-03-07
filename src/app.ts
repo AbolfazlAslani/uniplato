@@ -19,3 +19,5 @@ server.listen({port},(err)=>{
     }
 
 })
+
+export default server;
