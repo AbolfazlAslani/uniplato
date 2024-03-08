@@ -16,8 +16,16 @@ const createCategorySchema = {
         properties: {
           success: { type: 'boolean', default: true },
           message: { type: 'string', default: 'Category Created Successfully!' },
-          body: { type: 'object' }, // Adjust the type based on the actual response body
-        },
+          body: {
+            type: 'object',
+            properties: {
+              id: { type: 'number' },
+              latitude: { type: 'number' },
+              longitude: { type: 'number' },
+              category: { type: 'string' },
+              counter: { type: 'number' },
+            },
+          },         },
       },
       500: {
         type: 'object',
@@ -35,7 +43,7 @@ const updateCategorySchema = {
     params: {
       type: 'object',
       properties: {
-        id: { type: 'string', format: 'uuid' }, // Assuming id is a UUID, adjust as needed
+        id: { type: 'number' }, // Assuming id is a UUID, adjust as needed
       },
     },
     body: {
@@ -53,8 +61,17 @@ const updateCategorySchema = {
         properties: {
           success: { type: 'boolean', default: true },
           message: { type: 'string', default: 'Category Updated Successfully!' },
-          body: { type: 'object' }, // Adjust the type based on the actual response body
-        },
+          body: {
+            type: 'object',
+            properties: {
+              id: { type: 'number' },
+              latitude: { type: 'number' },
+              longitude: { type: 'number' },
+              category: { type: 'string' },
+              counter: { type: 'number' },
+            },
+          }, 
+          },
       },
       400: {
         type: 'object',
@@ -110,7 +127,7 @@ const deleteOneCategorySchema = {
     params: {
       type: 'object',
       properties: {
-        id: { type: 'string', format: 'uuid' }, // Assuming id is a UUID, adjust as needed
+        id: { type: 'number' }, // Assuming id is a UUID, adjust as needed
       },
     },
     response: {
@@ -154,7 +171,16 @@ const findOneCategorySchema = {
         properties: {
           success: { type: 'boolean', default: true },
           message: { type: 'string', default: 'Category Found Successfully!' },
-          body: { type: 'object' }, // Adjust the type based on the actual response body
+          body: {
+            type: 'object',
+            properties: {
+              id: { type: 'number' },
+              latitude: { type: 'number' },
+              longitude: { type: 'number' },
+              category: { type: 'string' },
+              counter: { type: 'number' },
+            },
+          },
         },
       },
       404: {
@@ -171,7 +197,6 @@ const findOneCategorySchema = {
       },
     },
     security: [{ bearerAuth: [] }],
-
   },
 };
 

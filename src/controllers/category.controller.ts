@@ -32,7 +32,6 @@ class CategoryController {
 
             // Find category by id
             const category = await CategoryService.findOneCategory(categoryId);
-
             if (category) {
                 // Return category if found
                 reply.code(200).send({

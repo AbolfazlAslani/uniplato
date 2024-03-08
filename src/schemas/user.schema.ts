@@ -17,8 +17,16 @@ const signUpSchema = {
         properties: {
           success: { type: 'boolean', default: true },
           message: { type: 'string', default: 'Created Successfully!' },
-          body: { type: 'object' }, // Adjust the type based on the actual user data
-        },
+          body: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              lastname: { type: 'string' },
+              phoneNumber: { type: 'string' },
+              email: { type: 'string', format: 'email' },
+              password: { type: 'string', minLength: 6 },
+            },
+          },         },
       },
       400: {
         type: 'object',

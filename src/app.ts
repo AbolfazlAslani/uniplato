@@ -21,8 +21,8 @@ const swaggerOptions = {
   exposeRoute: true,
   swagger: {
     info: {
-      title: 'Your API',
-      description: 'API documentation for your application.',
+      title: 'uniplato',
+      description: 'Auth system and Category CRUD',
       version: '1.0.0',
     },
     
