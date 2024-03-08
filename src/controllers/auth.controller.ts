@@ -1,6 +1,6 @@
 import { createUser, findUserByEmail } from "../services/userService";
 import { FastifyRequest, FastifyReply } from 'fastify';
-import hashPassword, { signJwt, verifyPassword } from "../functions/functions";
+import  {hashPassword, signJwt, verifyPassword } from "../functions/functions";
 
 class AuthController {
   static async signUp(request: FastifyRequest, reply: FastifyReply):Promise<void> {
@@ -40,37 +40,40 @@ class AuthController {
     }
   }
   
-  static async Login(request: FastifyRequest, reply: FastifyReply):Promise<void>{
+  static async Login(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     try {
-      const { email, password } = request.body as {
-        email: string;
-        password: string;
-      };
+        const { email, password } = request.body as {
+            email: string;
+            password: string;
+        };
 
-      //* Checking if email exists
-      const result = await findUserByEmail(email)
-      if(result){
+        //* Checking if email exists
+        const result = await findUserByEmail(email);
 
-        //?Verify Password
-        const passwordVerification = await verifyPassword(password, result.password);
-        if(passwordVerification){
-          //* Sign JWT
-          const token = await signJwt(result.id)
-          reply.code(200).send({
-            success:true,
-            message:"Logged in Successfully!",
-            token
-          })
+        if (result) {
+            // ? Verify Password
+            const passwordVerification = await verifyPassword(password, result.password);
+
+            if (passwordVerification) {
+                // * Sign JWT
+                const token = await signJwt(result.id);
+                reply.code(200).send({
+                    success: true,
+                    message: "Logged in Successfully!",
+                    token,
+                });
+                // Important: Return here to avoid executing the following 401 response
+                return;
+            }
         }
-        reply.code(401).send({error:"Incorrect Email or Password"})
 
-
-      }
-      reply.code(401).send({error:"Incorrect Email or Password"})
+        // If the function hasn't returned, the email or password is incorrect
+        reply.code(401).send({ error: "Incorrect Email or Password" });
     } catch (error) {
-      reply.code(500).send({error: "Internal Server Error"})
+        reply.code(500).send({ error: "Internal Server Error" });
     }
-  }
+}
+
   
   
 }

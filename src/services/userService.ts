@@ -1,8 +1,7 @@
 // services/userService.ts
 import { PrismaClient } from '@prisma/client';
 import { compare } from 'bcrypt';
-import hashPassword from '../functions/functions';
-
+import { hashPassword } from '../functions/functions';
 //* User Type
 interface CreateUserInput {
   name: string;
@@ -28,6 +27,19 @@ export const findUserByEmail = async (email: string) => {
     where: { email },
   });
   return user;
+};
+
+//* Get User By Email And Password
+export const getUserByEmailAndPassword = async (email: string, password: string) => {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (user && (await verifyPassword(password, user.password))) {
+    return user;
+  }
+
+  return null;
 };
 
 
