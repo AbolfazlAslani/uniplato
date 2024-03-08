@@ -116,6 +116,7 @@ npm test
 
 ## Techs <a name = "techs"></a>
 
+```
 Technologies and approaches used by me in this code:
 1.Implemented Category CRUD System
 2.Implemented Authentication System
@@ -127,7 +128,7 @@ Technologies and approaches used by me in this code:
 8.Have written tests using Mocha
 9.I have payed attention in commenting
 10.prestart script is defined for database seeding.
-
+```
 
 ## Techs <a name = "conti"></a>
 I Done this project with ❤️ would love to work with uniplato.
