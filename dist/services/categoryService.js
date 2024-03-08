@@ -1,6 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // services/categoryService.ts
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 class CategoryService {
     static async createCategory(categoryData) {
         try {
@@ -63,4 +65,4 @@ class CategoryService {
         }
     }
 }
-export default CategoryService;
+exports.default = CategoryService;

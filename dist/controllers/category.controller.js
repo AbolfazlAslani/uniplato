@@ -1,11 +1,16 @@
-import CategoryService from '../services/categoryService';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const categoryService_1 = __importDefault(require("../services/categoryService"));
 class CategoryController {
     static async createCategory(request, reply) {
         try {
             //? Catching category Body
             const { latitude, longitude, category, counter } = request.body;
             //? Creating the category in the database
-            const categoryResult = await CategoryService.createCategory({ latitude, longitude, category, counter });
+            const categoryResult = await categoryService_1.default.createCategory({ latitude, longitude, category, counter });
             if (categoryResult) {
                 reply.code(201).send({
                     success: true,
@@ -23,7 +28,7 @@ class CategoryController {
             // Extract category id from request parameters
             const categoryId = Number(request.params.id);
             // Find category by id
-            const category = await CategoryService.findOneCategory(categoryId);
+            const category = await categoryService_1.default.findOneCategory(categoryId);
             if (category) {
                 // Return category if found
                 reply.code(200).send({
@@ -46,7 +51,7 @@ class CategoryController {
     static async findAllCategories(request, reply) {
         try {
             // Retrieve all categories from the service
-            const categories = await CategoryService.findAllCategories();
+            const categories = await categoryService_1.default.findAllCategories();
             // Return the list of categories
             reply.code(200).send({
                 success: true,
@@ -72,10 +77,10 @@ class CategoryController {
                 });
                 return;
             }
-            const foundCategory = await CategoryService.findOneCategory(categoryId);
+            const foundCategory = await categoryService_1.default.findOneCategory(categoryId);
             if (foundCategory) {
                 // Update the category in the database
-                const updatedCategory = await CategoryService.updateOneCategory(categoryId, categoryUpdateData);
+                const updatedCategory = await categoryService_1.default.updateOneCategory(categoryId, categoryUpdateData);
                 if (updatedCategory) {
                     // Return the updated category
                     reply.code(200).send({
@@ -104,10 +109,10 @@ class CategoryController {
             // Extract category id from request parameters
             const categoryId = Number(request.params.id);
             // Check if the category exists
-            const foundCategory = await CategoryService.findOneCategory(categoryId);
+            const foundCategory = await categoryService_1.default.findOneCategory(categoryId);
             if (foundCategory) {
                 // Delete the category from the database
-                const deletionResult = await CategoryService.deleteOneCategory(categoryId);
+                const deletionResult = await categoryService_1.default.deleteOneCategory(categoryId);
                 if (deletionResult) {
                     // Return success message upon successful deletion
                     reply.code(200).send({
@@ -134,4 +139,4 @@ class CategoryController {
         }
     }
 }
-export default CategoryController;
+exports.default = CategoryController;

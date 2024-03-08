@@ -13,9 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/jwt": "^4.0.0",
-    "@fastify/static": "^4.0.0",
-    "@fastify/swagger": "^4.0.0",
+    "@fastify/jwt": "^8.0.0",
+    "@fastify/swagger": "^8.0.0",
     "@fastify/swagger-ui": "^3.0.0",
     "@types/node": "^20.11.24",
     "ajv": "^8.12.0",

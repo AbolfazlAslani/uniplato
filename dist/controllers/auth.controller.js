@@ -1,14 +1,16 @@
-import { createUser, findUserByEmail } from "../services/userService";
-import hashPassword, { signJwt, verifyPassword } from "../functions/functions";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const userService_1 = require("../services/userService");
+const functions_1 = require("../utils/functions");
 class AuthController {
     static async signUp(request, reply) {
         try {
             //? Catching Body
             const { name, lastname, phoneNumber, email, password } = request.body;
             //* Hashing password before adding to the database
-            const hashedPassword = await hashPassword(password);
+            const hashedPassword = await (0, functions_1.hashPassword)(password);
             //? Creating New User in database with Prisma
-            const user = await createUser({ name, lastname, phoneNumber, email, password: hashedPassword });
+            const user = await (0, userService_1.createUser)({ name, lastname, phoneNumber, email, password: hashedPassword });
             if (user) {
                 reply.code(201).send({
                     success: true,
@@ -34,21 +36,23 @@ class AuthController {
         try {
             const { email, password } = request.body;
             //* Checking if email exists
-            const result = await findUserByEmail(email);
+            const result = await (0, userService_1.findUserByEmail)(email);
             if (result) {
-                //?Verify Password
-                const passwordVerification = await verifyPassword(password, result.password);
+                // ? Verify Password
+                const passwordVerification = await (0, functions_1.verifyPassword)(password, result.password);
                 if (passwordVerification) {
-                    //* Sign JWT
-                    const token = await signJwt(result.id);
+                    // * Sign JWT
+                    const token = await (0, functions_1.signJwt)(result.id);
                     reply.code(200).send({
                         success: true,
                         message: "Logged in Successfully!",
-                        token
+                        token,
                     });
+                    // Important: Return here to avoid executing the following 401 response
+                    return;
                 }
-                reply.code(401).send({ error: "Incorrect Email or Password" });
             }
+            // If the function hasn't returned, the email or password is incorrect
             reply.code(401).send({ error: "Incorrect Email or Password" });
         }
         catch (error) {
@@ -56,4 +60,4 @@ class AuthController {
         }
     }
 }
-export default AuthController;
+exports.default = AuthController;
