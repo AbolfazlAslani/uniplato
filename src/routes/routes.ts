@@ -1,6 +1,4 @@
 // auth.route.ts
-import AuthController from '../controllers/auth.controller';
-import {userSchema,loginSchema} from '../schemas/user.schema';
 import { FastifyPluginAsync } from 'fastify';
 import categoryRoute from './category.route'
 import authRoute from './auth.route'

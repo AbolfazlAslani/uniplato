@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 import CategoryController from '../controllers/category.controller';
-import { categorySchema, updateOneSchema } from '../schemas/category.schema';
+import {createCategorySchema,deleteOneCategorySchema,findAllCategoriesSchema,findOneCategorySchema,updateCategorySchema} from '../schemas/category.schema'
 import jwtPreHandler from '../utils/preHandlers/auth-verify';
 
 interface IBodyCategory {
@@ -20,6 +20,15 @@ interface IReply {
     error: string;
   };
 }
+const swaggerOptions = {
+  schema: {
+    tags: ['Category'],
+    summary: 'Categories',
+  },
+};
+
+
+
 
 const categoryRoutes: FastifyPluginAsync = async (fastify) => {
   // Register the JWT preHandler for all routes
@@ -30,7 +39,7 @@ const categoryRoutes: FastifyPluginAsync = async (fastify) => {
     Body: IBodyCategory;
     Reply: IReply;
   }>('/create', {
-    schema: categorySchema.schema,
+    schema:{...createCategorySchema.schema,...swaggerOptions.schema},
     handler: CategoryController.createCategory,
   });
 
@@ -39,6 +48,8 @@ const categoryRoutes: FastifyPluginAsync = async (fastify) => {
     Params: { id: string };
     Reply: IReply;
   }>('/findone/:id', {
+    schema:{...findOneCategorySchema.schema,...swaggerOptions.schema},
+
     handler: CategoryController.findOneCategory,
   });
 
@@ -46,6 +57,8 @@ const categoryRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.get<{
     Reply: IReply;
   }>('/findall', {
+    schema:{...findAllCategoriesSchema.schema,...swaggerOptions.schema},
+
     handler: CategoryController.findAllCategories,
   });
 
@@ -55,7 +68,8 @@ const categoryRoutes: FastifyPluginAsync = async (fastify) => {
     Body: IBodyCategory;
     Reply: IReply;
   }>('/update/:id', {
-    schema: updateOneSchema.schema,
+    schema:{...updateCategorySchema.schema,...swaggerOptions.schema},
+
     handler: CategoryController.updateOneCategory,
   });
 
@@ -64,6 +78,8 @@ const categoryRoutes: FastifyPluginAsync = async (fastify) => {
     Params: { id: string };
     Reply: IReply;
   }>('/delete/:id', {
+    schema:{...deleteOneCategorySchema.schema,...swaggerOptions.schema},
+
     handler: CategoryController.deleteOneCategory,
   });
 };
