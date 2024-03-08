@@ -83,6 +83,23 @@ class AuthController {
             email: string;
             password: string;
         };
+        
+        const myData = {
+          email,
+          password
+        }
+        
+        const validate = ajv.compile(loginSchema.schema.body);
+        const valid = validate(myData);
+
+      if (!valid) {
+        // Respond with a 400 Bad Request if validation fails
+        reply.code(400).send({
+          error: 'Bad Request',
+          details: validate.errors,
+        });
+        return;
+      }
 
         //* Checking if email exists
         const result = await findUserByEmail(email);
