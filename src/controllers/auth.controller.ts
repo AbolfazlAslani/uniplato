@@ -1,9 +1,24 @@
 import { createUser, findUserByEmail } from "../services/userService";
 import { FastifyRequest, FastifyReply } from 'fastify';
 import  {hashPassword, signJwt, verifyPassword } from "../utils/functions";
+import Ajv from "ajv"
+import { loginSchema, signUpSchema } from "../schemas/user.schema";
+
+const ajv = new Ajv();
+
+// Add a custom email format validation
+ajv.addFormat('email', (data) => {
+  // Replace this with your email validation logic
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(data);
+});
+
 
 class AuthController {
   static async signUp(request: FastifyRequest, reply: FastifyReply):Promise<void> {
+    
+
+  
     try {
       //? Catching Body
       const { name, lastname, phoneNumber, email, password } = request.body as {
@@ -13,6 +28,27 @@ class AuthController {
         email: string;
         password: string;
       };
+      
+      const myData ={
+        name,
+        lastname,
+        phoneNumber,
+        email,
+        password
+      }
+      
+       // Validate request body using signUpSchema and Ajv
+      const validate = ajv.compile(signUpSchema.schema.body);
+      const valid = validate(myData);
+
+      if (!valid) {
+        // Respond with a 400 Bad Request if validation fails
+        reply.code(400).send({
+          error: 'Bad Request',
+          details: validate.errors,
+        });
+        return;
+      }
       
       //* Hashing password before adding to the database
       const hashedPassword = await hashPassword(password);
@@ -35,7 +71,8 @@ class AuthController {
         });
         //? Handle InternalServerError request
       } else {
-        reply.code(500).send({ error: 'Internal Server Error' });
+      console.log(error);
+        reply.code(500).send({ error: 'InternalServer Error' });
       }
     }
   }
@@ -70,7 +107,8 @@ class AuthController {
         // If the function hasn't returned, the email or password is incorrect
         reply.code(401).send({ error: "Incorrect Email or Password" });
     } catch (error) {
-        reply.code(500).send({ error: "Internal Server Error" });
+        console.log(error);
+        reply.code(500).send({ error: "InternalServer Error" });
     }
 }
 
