@@ -130,6 +130,6 @@ Technologies and approaches used by me in this code:
 10.prestart script is defined for database seeding.
 ```
 
-## Techs <a name = "conti"></a>
+## Contributing <a name = "conti"></a>
 I Done this project with ❤️ would love to work with uniplato.
 greatly appreciated Abolfazl
