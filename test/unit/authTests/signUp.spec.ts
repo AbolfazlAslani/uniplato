@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import AuthController from '../../../src/controllers/auth.controller';
 import * as userService from '../../../src/services/userService';
-import * as functions from '../../../src/functions/functions';
+import * as functions from '../../../src/utils/functions';
 
 const expect = chai.expect;
 

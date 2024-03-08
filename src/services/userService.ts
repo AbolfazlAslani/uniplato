@@ -1,7 +1,7 @@
 // services/userService.ts
 import { PrismaClient } from '@prisma/client';
 import { compare } from 'bcrypt';
-import { hashPassword } from '../functions/functions';
+import { hashPassword } from '../utils/functions';
 //* User Type
 interface CreateUserInput {
   name: string;

@@ -1,6 +1,6 @@
 import { createUser, findUserByEmail } from "../services/userService";
 import { FastifyRequest, FastifyReply } from 'fastify';
-import  {hashPassword, signJwt, verifyPassword } from "../functions/functions";
+import  {hashPassword, signJwt, verifyPassword } from "../utils/functions";
 
 class AuthController {
   static async signUp(request: FastifyRequest, reply: FastifyReply):Promise<void> {

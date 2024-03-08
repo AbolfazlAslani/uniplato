@@ -1,7 +1,7 @@
-// auth.route.ts
 import { FastifyPluginAsync } from 'fastify';
 import CategoryController from '../controllers/category.controller';
-import {categorySchema,updateOneSchema} from '../schemas/category.schema';
+import { categorySchema, updateOneSchema } from '../schemas/category.schema';
+import jwtPreHandler from '../utils/preHandlers/auth-verify';
 
 interface IBodyCategory {
   latitude: number;
@@ -21,8 +21,9 @@ interface IReply {
   };
 }
 
-//* Authentication Routes
-const routes: FastifyPluginAsync = async (fastify) => {
+const categoryRoutes: FastifyPluginAsync = async (fastify) => {
+  // Register the JWT preHandler for all routes
+  fastify.addHook('preHandler', jwtPreHandler);
 
   //* CreateCategory endpoint
   fastify.post<{
@@ -47,26 +48,24 @@ const routes: FastifyPluginAsync = async (fastify) => {
   }>('/findall', {
     handler: CategoryController.findAllCategories,
   });
-  
+
   //* UpdateOne Category endpoint
   fastify.put<{
     Params: { id: string };
     Body: IBodyCategory;
     Reply: IReply;
-  }>('/update/:id', { 
-    schema:updateOneSchema.schema,
+  }>('/update/:id', {
+    schema: updateOneSchema.schema,
     handler: CategoryController.updateOneCategory,
   });
-    
-    //* DeleteOne Category endpoint
+
+  //* DeleteOne Category endpoint
   fastify.delete<{
     Params: { id: string };
     Reply: IReply;
   }>('/delete/:id', {
     handler: CategoryController.deleteOneCategory,
   });
-
-
 };
 
-export default routes;
+export default categoryRoutes;
