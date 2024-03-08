@@ -75,11 +75,11 @@ server.get('/', (request, reply) => {
 
 server.register(AllRoutes);
 
-const port = 3000;
+const port:number = 3000;
 
-server.listen({ port }, (err) => {
+server.listen( port , '0.0.0.0',(err) => {
   try {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on http://localhost:${port} or http://0.0.0.0:${port} `);
   } catch (err) {
     console.error(err);
     process.exit(1);
